@@ -21,6 +21,7 @@ namespace rencart.Context
         public DbSet<Vehiculo> Vehiculo { get; set; }
         public DbSet<TipoPersona> TipoPersona { get; set; }
         public DbSet<Cliente> Cliente { get; set; }
+        public DbSet<Empleado> Empleado { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -33,6 +34,7 @@ namespace rencart.Context
             builder.ApplyConfiguration(new VehiculoConfiguration());
             builder.ApplyConfiguration(new TipoPersonaConfiguration());
             builder.ApplyConfiguration(new ClienteConfiguration());
+            builder.ApplyConfiguration(new EmpleadoConfiguration());
            
         }
 
