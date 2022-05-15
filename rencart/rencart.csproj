@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Interfaces\" />
+    <Folder Include="Repositories\Repository\" />
     <Folder Include="Services\" />
   </ItemGroup>
 

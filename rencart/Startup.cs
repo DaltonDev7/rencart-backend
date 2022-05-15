@@ -9,6 +9,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using rencart.Context;
+using rencart.Interfaces;
+using rencart.Repositories.Generico;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,7 +40,7 @@ namespace rencart
             services.AddDbContext<RencarDbContext>(item => item.UseSqlServer(Configuration.GetConnectionString("RencarDB")));
 
 
-
+            services.AddTransient<IUnityOfWork, UnityOfWork>();
 
 
 
