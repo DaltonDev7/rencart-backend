@@ -11,6 +11,7 @@ using Microsoft.OpenApi.Models;
 using rencart.Context;
 using rencart.Interfaces;
 using rencart.Repositories.Generico;
+using rencart.Repositories.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,8 +31,31 @@ namespace rencart
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // create cors policy
+            services.AddCors(options =>
+                options.AddPolicy("DefaultCorsPolicy", builder => builder
+                    .AllowAnyOrigin()
+                    .AllowAnyHeader()
+                    .AllowAnyMethod())
+            );
 
             services.AddControllers();
+
+            services.AddMvc(setupAction =>
+            {
+                setupAction.EnableEndpointRouting = false;
+            }).AddJsonOptions(jsonOptions =>
+            {
+                jsonOptions.JsonSerializerOptions.PropertyNamingPolicy = null;
+
+
+            }).ConfigureApiBehaviorOptions(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
+
+            })
+          .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "rencart", Version = "v1" });
@@ -41,6 +65,7 @@ namespace rencart
 
 
             services.AddTransient<IUnityOfWork, UnityOfWork>();
+            services.AddTransient<IMarcaRepository, MarcaRepository>();
 
 
 

@@ -1,17 +1,22 @@
 ﻿using rencart.Context;
 using rencart.Interfaces;
+using rencart.Repositories.Repository;
 using System;
 
 namespace rencart.Repositories.Generico
 {
-    public class UnityOfWork : IUnityOfWork
+    public class UnityOfWork : IUnityOfWork, IDisposable
     {
         private readonly RencarDbContext _dbContext;
         public UnityOfWork(RencarDbContext dbContext)
         {
-            //Inicializamo los repositorios y le pasamos el context al contructor de los repositorios
+            _dbContext = dbContext;
 
+            //Inicializamo los repositorios y le pasamos el context al contructor de los repositorios
+            Marcas = new MarcaRepository(_dbContext);
         }
+
+        public IMarcaRepository Marcas { get; private set; }
 
         public int Complete()
         {
