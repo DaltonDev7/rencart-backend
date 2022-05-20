@@ -10,6 +10,11 @@ namespace rencart.ConfigurationEntity
         {
             builder.ToTable("Vehiculos");
             builder.HasKey(x => x.Id);
+
+            builder.HasOne(v => v.TipoVehiculo)
+                   .WithMany(t => t.Vehiculos)
+                   .HasForeignKey(v => v.IdTipoVehiculo);
+
         }
     }
 }

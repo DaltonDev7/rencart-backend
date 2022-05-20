@@ -7,5 +7,9 @@
         public string NoMotor { get; set; }
         public string NoPlaca { get; set; }
 
+        public int IdTipoVehiculo { get; set; }
+
+        public TipoVehiculo TipoVehiculo { get; set; }
+
     }
 }
