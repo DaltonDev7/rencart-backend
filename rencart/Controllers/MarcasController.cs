@@ -35,6 +35,43 @@ namespace rencart.Controllers
             }
         }
 
+        [HttpGet]
+        public IActionResult GetById(int idMarca)
+        {
+            try
+            {
+                var marca = _IUnityOfWork.Marcas.Get(idMarca);
+                return StatusCode(200, marca);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+            finally
+            {
+                _IUnityOfWork.Dispose();
+            }
+        }
+
+        [HttpPut]
+        [Route("Update")]
+        public IActionResult Update(Marca Marca)
+        {
+            try
+            {
+                _IUnityOfWork.Marcas.Update(Marca);
+                return StatusCode(200, _IUnityOfWork.Complete());
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+            finally
+            {
+                _IUnityOfWork.Dispose();
+            }
+        }
+
         [HttpPost]
         public IActionResult Add(Marca marca)
         {
