@@ -13,7 +13,19 @@ namespace rencart.ConfigurationEntity
 
             builder.HasOne(v => v.TipoVehiculo)
                    .WithMany(t => t.Vehiculos)
-                   .HasForeignKey(v => v.IdTipoVehiculo);
+                   .HasForeignKey(v => v.IdTipoVehiculo)
+                   .OnDelete(DeleteBehavior.ClientSetNull);
+
+            builder.HasOne(v => v.TipoCombustible)
+                  .WithMany(t => t.Vehiculos)
+                  .HasForeignKey(v => v.IdTipoCombustible)
+                  .OnDelete(DeleteBehavior.ClientSetNull);
+
+            builder.HasOne(v => v.Modelo)
+                  .WithMany(t => t.Vehiculos)
+                  .HasForeignKey(v => v.IdModelo)
+                  .OnDelete(DeleteBehavior.ClientSetNull);
+
 
         }
     }

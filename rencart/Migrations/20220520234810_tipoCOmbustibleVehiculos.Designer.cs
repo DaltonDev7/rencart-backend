@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using rencart.Context;
 
 namespace rencart.Migrations
 {
     [DbContext(typeof(RencarDbContext))]
-    partial class RencarDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220520234810_tipoCOmbustibleVehiculos")]
+    partial class tipoCOmbustibleVehiculos
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -310,9 +312,6 @@ namespace rencart.Migrations
                     b.Property<DateTime?>("FechaModificacion")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("IdModelo")
-                        .HasColumnType("int");
-
                     b.Property<int>("IdTipoCombustible")
                         .HasColumnType("int");
 
@@ -329,8 +328,6 @@ namespace rencart.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("IdModelo");
 
                     b.HasIndex("IdTipoCombustible");
 
@@ -369,11 +366,6 @@ namespace rencart.Migrations
 
             modelBuilder.Entity("rencart.Entities.Vehiculo", b =>
                 {
-                    b.HasOne("rencart.Entities.Modelo", "Modelo")
-                        .WithMany("Vehiculos")
-                        .HasForeignKey("IdModelo")
-                        .IsRequired();
-
                     b.HasOne("rencart.Entities.TipoCombustible", "TipoCombustible")
                         .WithMany("Vehiculos")
                         .HasForeignKey("IdTipoCombustible")
@@ -384,8 +376,6 @@ namespace rencart.Migrations
                         .HasForeignKey("IdTipoVehiculo")
                         .IsRequired();
 
-                    b.Navigation("Modelo");
-
                     b.Navigation("TipoCombustible");
 
                     b.Navigation("TipoVehiculo");
@@ -394,11 +384,6 @@ namespace rencart.Migrations
             modelBuilder.Entity("rencart.Entities.Marca", b =>
                 {
                     b.Navigation("Modelos");
-                });
-
-            modelBuilder.Entity("rencart.Entities.Modelo", b =>
-                {
-                    b.Navigation("Vehiculos");
                 });
 
             modelBuilder.Entity("rencart.Entities.TipoCombustible", b =>

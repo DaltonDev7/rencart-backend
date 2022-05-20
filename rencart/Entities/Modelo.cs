@@ -1,4 +1,6 @@
-﻿namespace rencart.Entities
+﻿using System.Collections.Generic;
+
+namespace rencart.Entities
 {
     public class Modelo : EntityBase
     {
@@ -6,5 +8,8 @@
         public int IdMarca { get; set; }
 
         public Marca Marca { get; set; }
+
+        public ICollection<Vehiculo> Vehiculos { get; set; }
+
     }
 }
