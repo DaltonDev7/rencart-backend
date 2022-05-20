@@ -7,11 +7,11 @@ namespace rencart.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TipoPersonaController : ControllerBase
+    public class EmpleadoController : ControllerBase
     {
         private readonly IUnityOfWork _IUnityOfWork;
 
-        public TipoPersonaController(IUnityOfWork iUnityOfWork)
+        public EmpleadoController(IUnityOfWork iUnityOfWork)
         {
             _IUnityOfWork=iUnityOfWork;
         }
@@ -21,7 +21,8 @@ namespace rencart.Controllers
         {
             try
             {
-                return StatusCode(200, _IUnityOfWork.TipoPersona.GetAll());
+               
+                return StatusCode(200, _IUnityOfWork.Empleado.GetAll());
             }
             catch (Exception e)
             {
@@ -34,12 +35,12 @@ namespace rencart.Controllers
         }
 
         [HttpPost]
-        public IActionResult Add(TipoPersona tipoPersona)
+        public IActionResult Add(Empleado empleado)
         {
             try
             {
-                tipoPersona.FechaCreacion = DateTime.UtcNow.AddMinutes(-240);
-                _IUnityOfWork.TipoPersona.Add(tipoPersona);
+                empleado.FechaCreacion = DateTime.UtcNow.AddMinutes(-240);
+                _IUnityOfWork.Empleado.Add(empleado);
 
                 return StatusCode(201, _IUnityOfWork.Complete());
             }
@@ -51,15 +52,18 @@ namespace rencart.Controllers
             {
                 _IUnityOfWork.Dispose();
             }
+
+
         }
+
 
         [HttpPut]
         [Route("Update")]
-        public IActionResult Update(TipoPersona tipoPersona)
+        public IActionResult Update(Empleado empleado)
         {
             try
             {
-                _IUnityOfWork.TipoPersona.Update(tipoPersona);
+                _IUnityOfWork.Empleado.Update(empleado);
                 return StatusCode(204, _IUnityOfWork.Complete());
             }
             catch (Exception e)
@@ -71,6 +75,6 @@ namespace rencart.Controllers
                 _IUnityOfWork.Dispose();
             }
         }
-
     }
+
 }

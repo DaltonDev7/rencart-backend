@@ -19,6 +19,10 @@ namespace rencart.Repositories.Generico
             TipoCombustible = new TipoCombustibleRepository(_dbContext);
             vehiculo = new VehiculoRepository(_dbContext);
             TipoPersona = new TipoPersonaRepository(_dbContext);
+            Cliente = new ClienteRepository(_dbContext);
+            Empleado = new EmpleadoRepository(_dbContext);
+            Inspeccion = new InspeccionRepository(_dbContext);
+            RentaDevolucion = new RentaDevolucionRepository(_dbContext);
         }
 
         public IMarcaRepository Marcas { get; private set; }
@@ -32,6 +36,14 @@ namespace rencart.Repositories.Generico
         public IVehiculoRepository vehiculo { get; private set; }
 
         public ITipoPersonaRepository TipoPersona { get; private set; }
+
+        public IClienteRepository Cliente { get; private set; }
+
+        public IEmpleadoRepository Empleado { get; private set; }
+
+        public IInspeccionRepository Inspeccion { get; private set; }
+
+        public IRentaDevolucionRepository RentaDevolucion { get; private set; }
 
         public int Complete()
         {

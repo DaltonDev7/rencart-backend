@@ -7,21 +7,22 @@ namespace rencart.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TipoPersonaController : ControllerBase
+    public class RentaDevolucionController : ControllerBase
     {
         private readonly IUnityOfWork _IUnityOfWork;
 
-        public TipoPersonaController(IUnityOfWork iUnityOfWork)
+        public RentaDevolucionController(IUnityOfWork iUnityOfWork)
         {
             _IUnityOfWork=iUnityOfWork;
         }
+
 
         [HttpGet]
         public IActionResult GetAll()
         {
             try
             {
-                return StatusCode(200, _IUnityOfWork.TipoPersona.GetAll());
+                return StatusCode(200, _IUnityOfWork.RentaDevolucion.GetAll());
             }
             catch (Exception e)
             {
@@ -34,12 +35,12 @@ namespace rencart.Controllers
         }
 
         [HttpPost]
-        public IActionResult Add(TipoPersona tipoPersona)
+        public IActionResult Add(RentaDevolucion renta)
         {
             try
             {
-                tipoPersona.FechaCreacion = DateTime.UtcNow.AddMinutes(-240);
-                _IUnityOfWork.TipoPersona.Add(tipoPersona);
+                renta.FechaCreacion = DateTime.UtcNow.AddMinutes(-240);
+                _IUnityOfWork.RentaDevolucion.Add(renta);
 
                 return StatusCode(201, _IUnityOfWork.Complete());
             }
@@ -53,13 +54,31 @@ namespace rencart.Controllers
             }
         }
 
-        [HttpPut]
-        [Route("Update")]
-        public IActionResult Update(TipoPersona tipoPersona)
+        [HttpGet]
+        [Route("GetById/{idRentaDevolucion}")]
+        public IActionResult GetById(int idRentaDevolucion)
         {
             try
             {
-                _IUnityOfWork.TipoPersona.Update(tipoPersona);
+                return StatusCode(200, _IUnityOfWork.RentaDevolucion.Get(idRentaDevolucion));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+            finally
+            {
+                _IUnityOfWork.Dispose();
+            }
+        }
+
+        [HttpPut]
+        [Route("Update")]
+        public IActionResult Update(RentaDevolucion renta)
+        {
+            try
+            {
+                _IUnityOfWork.RentaDevolucion.Update(renta);
                 return StatusCode(204, _IUnityOfWork.Complete());
             }
             catch (Exception e)
@@ -71,6 +90,10 @@ namespace rencart.Controllers
                 _IUnityOfWork.Dispose();
             }
         }
+
+
+
+
 
     }
 }

@@ -61,7 +61,7 @@ namespace rencart.Controllers
             try
             {
                 _IUnityOfWork.Marcas.Update(Marca);
-                return StatusCode(200, _IUnityOfWork.Complete());
+                return StatusCode(204, _IUnityOfWork.Complete());
             }
             catch (Exception e)
             {

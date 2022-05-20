@@ -22,8 +22,8 @@ namespace rencart.Controllers
         {
             try
             {
-                var marcas = _IUnityOfWork.Modelos.GetAll();
-                return StatusCode(200, marcas);
+                var modelos = _IUnityOfWork.Modelos.GetAll();
+                return StatusCode(200, modelos);
             }
             catch (Exception e)
             {

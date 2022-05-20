@@ -70,6 +70,11 @@ namespace rencart
             services.AddTransient<IMarcaRepository, MarcaRepository>();
             services.AddTransient<IModeloRepository, ModeloRepository>();
             services.AddTransient<ITipoVehiculoRepository, TipoVehiculoRepository>();
+            services.AddTransient<ITipoCombustibleRepository, TipoCombustibleRepository>();
+            services.AddTransient<IVehiculoRepository, VehiculoRepository>();
+            services.AddTransient<ITipoPersonaRepository, TipoPersonaRepository>();
+            services.AddTransient<IClienteRepository, ClienteRepository>();
+            services.AddTransient<IEmpleadoRepository, EmpleadoRepository>();
 
 
 

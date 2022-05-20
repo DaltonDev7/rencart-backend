@@ -7,11 +7,11 @@ namespace rencart.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TipoPersonaController : ControllerBase
+    public class InspeccionController : ControllerBase
     {
         private readonly IUnityOfWork _IUnityOfWork;
 
-        public TipoPersonaController(IUnityOfWork iUnityOfWork)
+        public InspeccionController(IUnityOfWork iUnityOfWork)
         {
             _IUnityOfWork=iUnityOfWork;
         }
@@ -21,7 +21,26 @@ namespace rencart.Controllers
         {
             try
             {
-                return StatusCode(200, _IUnityOfWork.TipoPersona.GetAll());
+                return StatusCode(200, _IUnityOfWork.Inspeccion.GetAll());
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+            finally
+            {
+                _IUnityOfWork.Dispose();
+            }
+        }
+
+        [HttpGet]
+        [Route("GetById/{idInspeccion}")]
+        public IActionResult GetById(int idInspeccion)
+        {
+            try
+            {
+                var inspeccion = _IUnityOfWork.Inspeccion.Get(idInspeccion);
+                return StatusCode(200, inspeccion);
             }
             catch (Exception e)
             {
@@ -34,12 +53,12 @@ namespace rencart.Controllers
         }
 
         [HttpPost]
-        public IActionResult Add(TipoPersona tipoPersona)
+        public IActionResult Add(Inspeccion inspeccion)
         {
             try
             {
-                tipoPersona.FechaCreacion = DateTime.UtcNow.AddMinutes(-240);
-                _IUnityOfWork.TipoPersona.Add(tipoPersona);
+                inspeccion.FechaCreacion = DateTime.UtcNow.AddMinutes(-240);
+                _IUnityOfWork.Inspeccion.Add(inspeccion);
 
                 return StatusCode(201, _IUnityOfWork.Complete());
             }
@@ -53,13 +72,14 @@ namespace rencart.Controllers
             }
         }
 
+
         [HttpPut]
         [Route("Update")]
-        public IActionResult Update(TipoPersona tipoPersona)
+        public IActionResult Update(Inspeccion inspeccion)
         {
             try
             {
-                _IUnityOfWork.TipoPersona.Update(tipoPersona);
+                _IUnityOfWork.Inspeccion.Update(inspeccion);
                 return StatusCode(204, _IUnityOfWork.Complete());
             }
             catch (Exception e)
@@ -71,6 +91,8 @@ namespace rencart.Controllers
                 _IUnityOfWork.Dispose();
             }
         }
+
+
 
     }
 }
