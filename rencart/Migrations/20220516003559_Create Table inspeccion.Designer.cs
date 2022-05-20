@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using rencart.Context;
 
 namespace rencart.Migrations
 {
     [DbContext(typeof(RencarDbContext))]
-    partial class RencarDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220516003559_Create Table inspeccion")]
+    partial class CreateTableinspeccion
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -173,50 +175,9 @@ namespace rencart.Migrations
                     b.Property<DateTime?>("FechaModificacion")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("IdMarca")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("IdMarca");
 
                     b.ToTable("Modelos");
-                });
-
-            modelBuilder.Entity("rencart.Entities.RentaDevolucion", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("CantidadPorDia")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Comentario")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("Estado")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("FechaCreacion")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("FechaDevolucion")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("FechaModificacion")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("FechaRenta")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("MontoPorDia")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("RentaDevolucion");
                 });
 
             modelBuilder.Entity("rencart.Entities.TipoCombustible", b =>
@@ -340,21 +301,6 @@ namespace rencart.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("PrimeraTabla");
-                });
-
-            modelBuilder.Entity("rencart.Entities.Modelo", b =>
-                {
-                    b.HasOne("rencart.Entities.Marca", "Marca")
-                        .WithMany("Modelos")
-                        .HasForeignKey("IdMarca")
-                        .IsRequired();
-
-                    b.Navigation("Marca");
-                });
-
-            modelBuilder.Entity("rencart.Entities.Marca", b =>
-                {
-                    b.Navigation("Modelos");
                 });
 #pragma warning restore 612, 618
         }

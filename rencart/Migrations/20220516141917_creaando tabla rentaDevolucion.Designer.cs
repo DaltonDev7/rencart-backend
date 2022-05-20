@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using rencart.Context;
 
 namespace rencart.Migrations
 {
     [DbContext(typeof(RencarDbContext))]
-    partial class RencarDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220516141917_creaando tabla rentaDevolucion")]
+    partial class creaandotablarentaDevolucion
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -173,12 +175,7 @@ namespace rencart.Migrations
                     b.Property<DateTime?>("FechaModificacion")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("IdMarca")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("IdMarca");
 
                     b.ToTable("Modelos");
                 });
@@ -340,21 +337,6 @@ namespace rencart.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("PrimeraTabla");
-                });
-
-            modelBuilder.Entity("rencart.Entities.Modelo", b =>
-                {
-                    b.HasOne("rencart.Entities.Marca", "Marca")
-                        .WithMany("Modelos")
-                        .HasForeignKey("IdMarca")
-                        .IsRequired();
-
-                    b.Navigation("Marca");
-                });
-
-            modelBuilder.Entity("rencart.Entities.Marca", b =>
-                {
-                    b.Navigation("Modelos");
                 });
 #pragma warning restore 612, 618
         }
