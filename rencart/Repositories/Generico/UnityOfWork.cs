@@ -15,11 +15,23 @@ namespace rencart.Repositories.Generico
             //Inicializamo los repositorios y le pasamos el context al contructor de los repositorios
             Marcas = new MarcaRepository(_dbContext);
             Modelos = new ModeloRepository(_dbContext);
+            TipoVehiculos = new TipoVehiculoRepository(_dbContext);
+            TipoCombustible = new TipoCombustibleRepository(_dbContext);
+            vehiculo = new VehiculoRepository(_dbContext);
+            TipoPersona = new TipoPersonaRepository(_dbContext);
         }
 
         public IMarcaRepository Marcas { get; private set; }
 
         public IModeloRepository Modelos { get; private set; }
+
+        public ITipoVehiculoRepository TipoVehiculos { get; private set; }
+
+        public ITipoCombustibleRepository TipoCombustible { get; private set; }
+
+        public IVehiculoRepository vehiculo { get; private set; }
+
+        public ITipoPersonaRepository TipoPersona { get; private set; }
 
         public int Complete()
         {

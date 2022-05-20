@@ -64,8 +64,12 @@ namespace rencart
             services.AddDbContext<RencarDbContext>(item => item.UseSqlServer(Configuration.GetConnectionString("RencarDB")));
 
 
+
+
             services.AddTransient<IUnityOfWork, UnityOfWork>();
             services.AddTransient<IMarcaRepository, MarcaRepository>();
+            services.AddTransient<IModeloRepository, ModeloRepository>();
+            services.AddTransient<ITipoVehiculoRepository, TipoVehiculoRepository>();
 
 
 

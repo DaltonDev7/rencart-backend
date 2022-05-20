@@ -4,6 +4,6 @@ namespace rencart.Interfaces
 {
     public interface IMarcaRepository : IBaseRepository<Marca>
     {
-        public void Update(Marca marca);
+        void Update(Marca marca);
     }
 }
