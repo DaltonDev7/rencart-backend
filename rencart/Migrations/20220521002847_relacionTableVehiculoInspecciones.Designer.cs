@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using rencart.Context;
 
 namespace rencart.Migrations
 {
     [DbContext(typeof(RencarDbContext))]
-    partial class RencarDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220521002847_relacionTableVehiculoInspecciones")]
+    partial class relacionTableVehiculoInspecciones
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -126,9 +128,6 @@ namespace rencart.Migrations
                     b.Property<DateTime?>("FechaModificacion")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("IdCliente")
-                        .HasColumnType("int");
-
                     b.Property<int>("IdVehiculo")
                         .HasColumnType("int");
 
@@ -145,8 +144,6 @@ namespace rencart.Migrations
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("IdCliente");
 
                     b.HasIndex("IdVehiculo");
 
@@ -392,17 +389,10 @@ namespace rencart.Migrations
 
             modelBuilder.Entity("rencart.Entities.Inspeccion", b =>
                 {
-                    b.HasOne("rencart.Entities.Cliente", "Cliente")
-                        .WithMany("Inspecciones")
-                        .HasForeignKey("IdCliente")
-                        .IsRequired();
-
                     b.HasOne("rencart.Entities.Vehiculo", "Vehiculo")
                         .WithMany("Inspecciones")
                         .HasForeignKey("IdVehiculo")
                         .IsRequired();
-
-                    b.Navigation("Cliente");
 
                     b.Navigation("Vehiculo");
                 });
@@ -439,11 +429,6 @@ namespace rencart.Migrations
                     b.Navigation("TipoCombustible");
 
                     b.Navigation("TipoVehiculo");
-                });
-
-            modelBuilder.Entity("rencart.Entities.Cliente", b =>
-                {
-                    b.Navigation("Inspecciones");
                 });
 
             modelBuilder.Entity("rencart.Entities.Marca", b =>

@@ -8,5 +8,11 @@
         public bool TieneGato { get; set; }
         public bool TieneRoturaCristal { get; set; }
 
+        public int IdVehiculo { get; set; }
+        public int IdCliente { get; set; }
+        public Vehiculo Vehiculo { get; set; }
+        public Cliente Cliente { get; set; }
+
+
     }
 }

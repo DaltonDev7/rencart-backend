@@ -1,4 +1,6 @@
-﻿namespace rencart.Entities
+﻿using System.Collections.Generic;
+
+namespace rencart.Entities
 {
     public class Vehiculo : EntityBase
     {
@@ -14,6 +16,8 @@
         public TipoVehiculo TipoVehiculo { get; set; }
         public TipoCombustible TipoCombustible { get; set; }
         public Modelo Modelo { get; set; }
+
+        public ICollection<Inspeccion> Inspecciones { get; set; }
 
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace rencart.Entities
+﻿using System.Collections.Generic;
+
+namespace rencart.Entities
 {
     public class Cliente : EntityBase
     {
@@ -11,5 +13,9 @@
         public int LimiteCredito { get; set; }
         public int IdTipoPersona { get; set; }
         public TipoPersona TipoPersona { get; set; }
+
+        public ICollection<Inspeccion> Inspecciones { get; set; }
+
+
     }
 }
