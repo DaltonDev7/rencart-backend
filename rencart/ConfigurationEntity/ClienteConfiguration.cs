@@ -10,6 +10,15 @@ namespace rencart.ConfigurationEntity
         {
             builder.ToTable("Clientes");
             builder.HasKey(x => x.Id);
+
+            builder.HasOne(v => v.TipoPersona)
+                  .WithMany(t => t.Clientes)
+                  .HasForeignKey(v => v.IdTipoPersona)
+                  .OnDelete(DeleteBehavior.ClientSetNull);
+
+           builder.HasIndex(x => x.Cedula).IsUnique();
+
+
         }
     }
 }

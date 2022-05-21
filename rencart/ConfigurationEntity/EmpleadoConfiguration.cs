@@ -10,6 +10,8 @@ namespace rencart.ConfigurationEntity
         {
             builder.ToTable("Empleados");
             builder.HasKey(x => x.Id);
+
+            builder.HasIndex(x => x.Cedula).IsUnique();
         }
     }
 }

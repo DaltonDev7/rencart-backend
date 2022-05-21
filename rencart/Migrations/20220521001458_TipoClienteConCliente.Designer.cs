@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using rencart.Context;
 
 namespace rencart.Migrations
 {
     [DbContext(typeof(RencarDbContext))]
-    partial class RencarDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220521001458_TipoClienteConCliente")]
+    partial class TipoClienteConCliente
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,7 +32,7 @@ namespace rencart.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Cedula")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("Estado")
                         .HasColumnType("int");
@@ -55,10 +57,6 @@ namespace rencart.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Cedula")
-                        .IsUnique()
-                        .HasFilter("[Cedula] IS NOT NULL");
-
                     b.HasIndex("IdTipoPersona");
 
                     b.ToTable("Clientes");
@@ -75,7 +73,7 @@ namespace rencart.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Cedula")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("Estado")
                         .HasColumnType("int");
@@ -99,10 +97,6 @@ namespace rencart.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Cedula")
-                        .IsUnique()
-                        .HasFilter("[Cedula] IS NOT NULL");
 
                     b.ToTable("Empleados");
                 });

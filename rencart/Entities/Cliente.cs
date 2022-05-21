@@ -9,5 +9,7 @@
 
         public string NoTarjetaCR { get; set; }
         public int LimiteCredito { get; set; }
+        public int IdTipoPersona { get; set; }
+        public TipoPersona TipoPersona { get; set; }
     }
 }
