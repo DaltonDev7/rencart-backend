@@ -33,6 +33,42 @@ namespace rencart.Controllers
             }
         }
 
+        [HttpPut]
+        [Route("Update")]
+        public IActionResult Update(TipoVehiculo tipoVehiculo)
+        {
+            try
+            {
+                _IUnityOfWork.TipoVehiculos.Update(tipoVehiculo);
+                return StatusCode(201, _IUnityOfWork.Complete());
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+            finally
+            {
+                _IUnityOfWork.Dispose();
+            }
+        }
+
+        [HttpGet]
+        [Route("GetById/{idTipoVehiculo}")]
+        public IActionResult GetById(int idTipoVehiculo)
+        {
+            try
+            {
+                return StatusCode(200, _IUnityOfWork.TipoVehiculos.Get(idTipoVehiculo));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+            finally
+            {
+                _IUnityOfWork.Dispose();
+            }
+        }
 
         [HttpPost]
         public IActionResult Add(TipoVehiculo tipoVehiculo)

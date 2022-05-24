@@ -10,8 +10,10 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using rencart.Context;
 using rencart.Interfaces;
+using rencart.Interfaces.Services;
 using rencart.Repositories.Generico;
 using rencart.Repositories.Repository;
+using rencart.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +23,7 @@ namespace rencart
 {
     public class Startup
     {
+        private readonly string corsPolicy = "_defaultCorsPolicy";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -32,12 +35,6 @@ namespace rencart
         public void ConfigureServices(IServiceCollection services)
         {
             // create cors policy
-            services.AddCors(options =>
-                options.AddPolicy("DefaultCorsPolicy", builder => builder
-                    .AllowAnyOrigin()
-                    .AllowAnyHeader()
-                    .AllowAnyMethod())
-            );
 
             services.AddControllers();
 
@@ -61,6 +58,19 @@ namespace rencart
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "rencart", Version = "v1" });
             });
 
+            services.AddCors(opts =>
+            {
+                opts.AddPolicy(name: corsPolicy, b =>
+                {
+                    b
+                    //.AllowAnyOrigin()
+                    .WithOrigins(new string[] { "http://localhost:4200", "http://localhost:5001", "http://localhost/angulartest" })
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
+                    // .AllowCredentials();
+                });
+            });
+
             services.AddDbContext<RencarDbContext>(item => item.UseSqlServer(Configuration.GetConnectionString("RencarDB")));
 
 
@@ -76,7 +86,7 @@ namespace rencart
             services.AddTransient<IClienteRepository, ClienteRepository>();
             services.AddTransient<IEmpleadoRepository, EmpleadoRepository>();
 
-
+            services.AddScoped<IComboxService, ComboxService>();
 
 
         }
@@ -91,9 +101,11 @@ namespace rencart
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "rencart v1"));
             }
 
+        
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            app.UseCors(corsPolicy);
 
             app.UseAuthorization();
 

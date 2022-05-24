@@ -40,6 +40,7 @@ namespace rencart.Controllers
             try
             {
                 empleado.FechaCreacion = DateTime.UtcNow.AddMinutes(-240);
+                empleado.FechaIngreso = DateTime.UtcNow.AddMinutes(-240);
                 _IUnityOfWork.Empleado.Add(empleado);
 
                 return StatusCode(201, _IUnityOfWork.Complete());
@@ -56,6 +57,25 @@ namespace rencart.Controllers
 
         }
 
+        [HttpGet]
+        [Route("GetById/{idEmpleado}")]
+        public IActionResult GetById(int idEmpleado)
+        {
+            try
+            {
+                var empleado = _IUnityOfWork.Empleado.Get(idEmpleado);
+                return StatusCode(200, empleado);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+            finally
+            {
+                _IUnityOfWork.Dispose();
+            }
+        }
+
 
         [HttpPut]
         [Route("Update")]
@@ -64,7 +84,7 @@ namespace rencart.Controllers
             try
             {
                 _IUnityOfWork.Empleado.Update(empleado);
-                return StatusCode(204, _IUnityOfWork.Complete());
+                return StatusCode(201, _IUnityOfWork.Complete());
             }
             catch (Exception e)
             {

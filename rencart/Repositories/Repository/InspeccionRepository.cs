@@ -7,6 +7,7 @@ namespace rencart.Repositories.Repository
 {
     public class InspeccionRepository : BaseRepository<Inspeccion>, IInspeccionRepository
     {
+        public RencarDbContext _context { get { return context; } }
         public InspeccionRepository(RencarDbContext context) : base(context)
         {
         }

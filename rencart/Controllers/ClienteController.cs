@@ -2,6 +2,7 @@
 using rencart.Entities;
 using rencart.Interfaces;
 using System;
+using System.Threading.Tasks;
 
 namespace rencart.Controllers
 {
@@ -17,11 +18,11 @@ namespace rencart.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
             try
             {
-                return StatusCode(200, _IUnityOfWork.Cliente.GetAll());
+                return StatusCode(200, await _IUnityOfWork.Cliente.getClientes());
             }
             catch (Exception e)
             {
@@ -60,7 +61,7 @@ namespace rencart.Controllers
             try
             {
                 _IUnityOfWork.Cliente.Update(cliente);
-                return StatusCode(204, _IUnityOfWork.Complete());
+                return StatusCode(201, _IUnityOfWork.Complete());
             }
             catch (Exception e)
             {

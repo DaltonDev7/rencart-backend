@@ -33,6 +33,25 @@ namespace rencart.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("GetById/{idTipoPersona}")]
+        public IActionResult GetById(int idTipoPersona)
+        {
+            try
+            {
+                var tipoPersona = _IUnityOfWork.TipoPersona.Get(idTipoPersona);
+                return StatusCode(200, tipoPersona);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+            finally
+            {
+                _IUnityOfWork.Dispose();
+            }
+        }
+
         [HttpPost]
         public IActionResult Add(TipoPersona tipoPersona)
         {
@@ -60,7 +79,7 @@ namespace rencart.Controllers
             try
             {
                 _IUnityOfWork.TipoPersona.Update(tipoPersona);
-                return StatusCode(204, _IUnityOfWork.Complete());
+                return StatusCode(201, _IUnityOfWork.Complete());
             }
             catch (Exception e)
             {

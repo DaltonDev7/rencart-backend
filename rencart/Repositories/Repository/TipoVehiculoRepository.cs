@@ -2,6 +2,7 @@
 using rencart.Entities;
 using rencart.Interfaces;
 using rencart.Repositories.Generico;
+using System;
 
 namespace rencart.Repositories.Repository
 {
@@ -13,7 +14,10 @@ namespace rencart.Repositories.Repository
 
         public void Update(TipoVehiculo tipoVehiculo)
         {
-            throw new System.NotImplementedException();
+            var tipoVehiculoUpdate = Get(tipoVehiculo.Id);
+            tipoVehiculoUpdate.Descripcion = tipoVehiculo.Descripcion;
+            tipoVehiculoUpdate.Estado = tipoVehiculo.Estado;
+            tipoVehiculoUpdate.FechaModificacion = DateTime.UtcNow.AddMinutes(-240);
         }
     }
 }
