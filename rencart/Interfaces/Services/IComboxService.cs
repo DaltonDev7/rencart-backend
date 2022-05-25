@@ -9,6 +9,7 @@ namespace rencart.Interfaces.Services
         Task<dynamic> getTipoPersonaCombox();
         Task<dynamic> getModeloCombox();
 
+        Task<dynamic> getEmpleadoCombox();
         Task<dynamic> getTipoCombustibleCombox();
 
         Task<dynamic> getTipoVehiculoCombox();

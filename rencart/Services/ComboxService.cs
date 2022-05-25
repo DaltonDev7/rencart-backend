@@ -20,7 +20,7 @@ namespace rencart.Services
             return await _context.Cliente.Select(c => new
             {
                 id = c.Id,
-                text = c.Nombres + c.Apellidos
+                text = c.Nombres+" "+ c.Apellidos
             }).ToListAsync();
         }
         public async Task<dynamic> getTipoPersonaCombox()
@@ -56,6 +56,15 @@ namespace rencart.Services
             {
                 id = m.Id,
                 text = m.Descripcion
+            }).ToListAsync();
+        }
+
+        public async Task<dynamic> getEmpleadoCombox()
+        {
+            return await _context.Empleado.Select(m => new
+            {
+                id = m.Id,
+                text = m.Nombres+" "+m.Apellidos
             }).ToListAsync();
         }
 

@@ -107,6 +107,22 @@ namespace rencart.Controllers
         }
 
 
+        [HttpGet]
+        [Route("Empleado")]
+        public async Task<IActionResult> getEmpleadoCombox()
+        {
+            try
+            {
+                var marcas = await _comboxService.getEmpleadoCombox();
+                return StatusCode(200, marcas);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+        }
+
+
 
     }
 }

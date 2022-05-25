@@ -13,9 +13,12 @@ namespace rencart.Repositories.Repository
         {
         }
 
-        public void Update(Entities.TipoCombustible tipoCombustible)
+        public void Update(TipoCombustible tipoCombustible)
         {
-            throw new NotImplementedException();
+            var updateTipoCombustible = Get(tipoCombustible.Id);
+            updateTipoCombustible.Descripcion = tipoCombustible.Descripcion;
+            updateTipoCombustible.Estado = tipoCombustible.Estado;
+            updateTipoCombustible.FechaModificacion = DateTime.UtcNow.AddMinutes(-240);
         }
 
  

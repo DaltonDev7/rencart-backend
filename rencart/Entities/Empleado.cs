@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace rencart.Entities
 {
@@ -10,5 +11,7 @@ namespace rencart.Entities
         public string TandaLabor { get; set; }
         public int PorcientoComision { get; set; }
         public DateTime FechaIngreso { get; set; }
+        public ICollection<Inspeccion> Inspecciones { get; set; }
+
     }
 }

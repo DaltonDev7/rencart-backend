@@ -33,6 +33,46 @@ namespace rencart.Controllers
             }
         }
 
+
+        [HttpGet]
+        [Route("GetById/{idTipoCombustible}")]
+        public IActionResult GetById(int idTipoCombustible)
+        {
+            try
+            {
+                var marca = _IUnityOfWork.TipoCombustible.Get(idTipoCombustible);
+                return StatusCode(200, marca);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+            finally
+            {
+                _IUnityOfWork.Dispose();
+            }
+        }
+
+
+        [HttpPut]
+        [Route("Update")]
+        public IActionResult Update(TipoCombustible tipoCombustible)
+        {
+            try
+            {
+                _IUnityOfWork.TipoCombustible.Update(tipoCombustible);
+                return StatusCode(201, _IUnityOfWork.Complete());
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+            finally
+            {
+                _IUnityOfWork.Dispose();
+            }
+        }
+
         [HttpPost]
         public IActionResult Add(TipoCombustible tipoCombustible)
         {
