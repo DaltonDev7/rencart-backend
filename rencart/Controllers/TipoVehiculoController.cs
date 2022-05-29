@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using rencart.Context;
 using rencart.Entities;
 using rencart.Interfaces;
 using System;
+using System.Threading.Tasks;
 
 namespace rencart.Controllers
 {
@@ -10,10 +13,11 @@ namespace rencart.Controllers
     public class TipoVehiculoController : ControllerBase
     {
         private readonly IUnityOfWork _IUnityOfWork;
-
-        public TipoVehiculoController(IUnityOfWork iUnityOfWork)
+        public RencarDbContext _context;
+        public TipoVehiculoController(IUnityOfWork iUnityOfWork, RencarDbContext context)
         {
             _IUnityOfWork=iUnityOfWork;
+            _context=context;
         }
 
         [HttpGet]
@@ -22,6 +26,28 @@ namespace rencart.Controllers
             try
             {
                 return StatusCode(200, _IUnityOfWork.TipoVehiculos.GetAll());
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+            finally
+            {
+                _IUnityOfWork.Dispose();
+            }
+        }
+
+
+        [HttpDelete]
+        [Route("remove/{idTipoVehiculo}")]
+        public async Task<IActionResult> Remove(int idTipoVehiculo)
+        {
+            try
+            {
+                var tipo = await _context.TipoVehiculo.FirstOrDefaultAsync(i => i.Id == idTipoVehiculo);
+                if (tipo  != null) _IUnityOfWork.TipoVehiculos.Remove(tipo);
+
+                return StatusCode(200, _IUnityOfWork.Complete());
             }
             catch (Exception e)
             {

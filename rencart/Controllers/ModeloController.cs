@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using rencart.Context;
 using rencart.Entities;
 using rencart.Interfaces;
 using System;
@@ -12,10 +14,12 @@ namespace rencart.Controllers
     {
 
         private readonly IUnityOfWork _IUnityOfWork;
+        public RencarDbContext _context;
 
-        public ModeloController(IUnityOfWork iUnityOfWork)
+        public ModeloController(IUnityOfWork iUnityOfWork, RencarDbContext context)
         {
             _IUnityOfWork=iUnityOfWork;
+            _context=context;
         }
 
         [HttpGet]
@@ -25,6 +29,27 @@ namespace rencart.Controllers
             {
                 var modelos = await _IUnityOfWork.Modelos.getModelos();
                 return StatusCode(200, modelos);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+            finally
+            {
+                _IUnityOfWork.Dispose();
+            }
+        }
+
+        [HttpDelete]
+        [Route("remove/{idmodelo}")]
+        public async Task<IActionResult> Remove(int idmodelo)
+        {
+            try
+            {
+                var modelo = await _context.Modelo.FirstOrDefaultAsync(i => i.Id == idmodelo);
+                if (modelo  != null) _IUnityOfWork.Modelos.Remove(modelo);
+
+                return StatusCode(200, _IUnityOfWork.Complete());
             }
             catch (Exception e)
             {

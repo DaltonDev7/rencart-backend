@@ -97,8 +97,8 @@ namespace rencart.Controllers
         {
             try
             {
-                var marcas = await _comboxService.getTipoVehiculoCombox();
-                return StatusCode(200, marcas);
+                var tipoVehiculo = await _comboxService.getTipoVehiculoCombox();
+                return StatusCode(200, tipoVehiculo);
             }
             catch (Exception e)
             {
@@ -113,8 +113,38 @@ namespace rencart.Controllers
         {
             try
             {
-                var marcas = await _comboxService.getEmpleadoCombox();
-                return StatusCode(200, marcas);
+                var empleados = await _comboxService.getEmpleadoCombox();
+                return StatusCode(200, empleados);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("Vehiculo")]
+        public async Task<IActionResult> getVehiculoCombox()
+        {
+            try
+            {
+                var vehiculos = await _comboxService.getVehiculoCombox();
+                return StatusCode(200, vehiculos);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("GetModelosByMarca/{idMarca}")]
+        public async Task<IActionResult> getModelosByIdMarca(int idMarca)
+        {
+            try
+            {
+                var vehiculos = await _comboxService.getModelosByIdMarca(idMarca);
+                return StatusCode(200, vehiculos);
             }
             catch (Exception e)
             {

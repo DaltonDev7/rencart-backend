@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using rencart.Context;
 
 namespace rencart.Migrations
 {
     [DbContext(typeof(RencarDbContext))]
-    partial class RencarDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220525193107_agregandoCantidadDias")]
+    partial class agregandoCantidadDias
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -269,9 +271,6 @@ namespace rencart.Migrations
                     b.Property<int>("MontoPorDia")
                         .HasColumnType("int");
 
-                    b.Property<bool?>("confirmarDevolucion")
-                        .HasColumnType("bit");
-
                     b.HasKey("Id");
 
                     b.HasIndex("IdCliente");
@@ -374,9 +373,6 @@ namespace rencart.Migrations
                     b.Property<DateTime?>("FechaModificacion")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("IdMarca")
-                        .HasColumnType("int");
-
                     b.Property<int>("IdModelo")
                         .HasColumnType("int");
 
@@ -396,8 +392,6 @@ namespace rencart.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("IdMarca");
 
                     b.HasIndex("IdModelo");
 
@@ -496,10 +490,6 @@ namespace rencart.Migrations
 
             modelBuilder.Entity("rencart.Entities.Vehiculo", b =>
                 {
-                    b.HasOne("rencart.Entities.Marca", "Marca")
-                        .WithMany("Vehiculos")
-                        .HasForeignKey("IdMarca");
-
                     b.HasOne("rencart.Entities.Modelo", "Modelo")
                         .WithMany("Vehiculos")
                         .HasForeignKey("IdModelo")
@@ -514,8 +504,6 @@ namespace rencart.Migrations
                         .WithMany("Vehiculos")
                         .HasForeignKey("IdTipoVehiculo")
                         .IsRequired();
-
-                    b.Navigation("Marca");
 
                     b.Navigation("Modelo");
 
@@ -541,8 +529,6 @@ namespace rencart.Migrations
             modelBuilder.Entity("rencart.Entities.Marca", b =>
                 {
                     b.Navigation("Modelos");
-
-                    b.Navigation("Vehiculos");
                 });
 
             modelBuilder.Entity("rencart.Entities.Modelo", b =>

@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using rencart.Context;
 using rencart.Entities;
 using rencart.Interfaces;
 using System;
+using System.Threading.Tasks;
 
 namespace rencart.Controllers
 {
@@ -10,10 +13,12 @@ namespace rencart.Controllers
     public class EmpleadoController : ControllerBase
     {
         private readonly IUnityOfWork _IUnityOfWork;
+        public RencarDbContext _context;
 
-        public EmpleadoController(IUnityOfWork iUnityOfWork)
+        public EmpleadoController(IUnityOfWork iUnityOfWork, RencarDbContext context)
         {
             _IUnityOfWork=iUnityOfWork;
+            _context=context;
         }
 
         [HttpGet]
@@ -55,6 +60,27 @@ namespace rencart.Controllers
             }
 
 
+        }
+
+        [HttpDelete]
+        [Route("remove/{idempleado}")]
+        public async Task<IActionResult> Remove(int idempleado)
+        {
+            try
+            {
+                var empleado = await _context.Empleado.FirstOrDefaultAsync(i => i.Id == idempleado);
+                if (empleado  != null) _IUnityOfWork.Empleado.Remove(empleado);
+
+                return StatusCode(200, _IUnityOfWork.Complete());
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+            finally
+            {
+                _IUnityOfWork.Dispose();
+            }
         }
 
         [HttpGet]

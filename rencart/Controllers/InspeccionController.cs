@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using rencart.Entities;
 using rencart.Interfaces;
+using rencart.Interfaces.Services;
 using System;
 using System.Threading.Tasks;
 
@@ -11,10 +12,12 @@ namespace rencart.Controllers
     public class InspeccionController : ControllerBase
     {
         private readonly IUnityOfWork _IUnityOfWork;
+        private readonly IInspeccionService _inspeccionService;
 
-        public InspeccionController(IUnityOfWork iUnityOfWork)
+        public InspeccionController(IUnityOfWork iUnityOfWork, IInspeccionService inspeccionService)
         {
             _IUnityOfWork=iUnityOfWork;
+            _inspeccionService=inspeccionService;
         }
 
         [HttpGet]
@@ -41,6 +44,45 @@ namespace rencart.Controllers
             try
             {
                 var inspeccion = _IUnityOfWork.Inspeccion.Get(idInspeccion);
+                return StatusCode(200, inspeccion);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+            finally
+            {
+                _IUnityOfWork.Dispose();
+            }
+        }
+
+        [HttpDelete]
+        [Route("remove/{idInspeccion}")]
+        public  async Task<IActionResult> Remove(int idInspeccion)
+        {
+            try
+            {
+
+                await _inspeccionService.removeInspeccion(idInspeccion);
+                return StatusCode(200, _IUnityOfWork.Complete());
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+            finally
+            {
+                _IUnityOfWork.Dispose();
+            }
+        }
+
+        [HttpGet]
+        [Route("verificarVehiculoInspeccion/{idVehiculo}")]
+        public async Task<IActionResult> VerificarInspeccionVehiculo(int idVehiculo)
+        {
+            try
+            {
+                var inspeccion = await _IUnityOfWork.Inspeccion.verificarInspeccionVehiculo(idVehiculo);
                 return StatusCode(200, inspeccion);
             }
             catch (Exception e)
@@ -81,7 +123,7 @@ namespace rencart.Controllers
             try
             {
                 _IUnityOfWork.Inspeccion.Update(inspeccion);
-                return StatusCode(204, _IUnityOfWork.Complete());
+                return StatusCode(201, _IUnityOfWork.Complete());
             }
             catch (Exception e)
             {

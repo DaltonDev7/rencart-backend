@@ -77,5 +77,24 @@ namespace rencart.Services
             }).ToListAsync();
         }
 
+        public async Task<dynamic> getVehiculoCombox()
+        {
+            return await _context.Vehiculo.Select(m => new
+            {
+                id = m.Id,
+                text = m.Descripcion
+            }).ToListAsync();
+        }
+
+        public async Task<dynamic> getModelosByIdMarca(int idMarca)
+        {
+            return await _context.Modelo.Select(m => new
+            {
+                id = m.Id,
+                text = m.Descripcion,
+                m.IdMarca
+            }).Where(m => m.IdMarca == idMarca).ToListAsync();
+        }
+
     }
 }

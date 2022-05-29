@@ -24,6 +24,7 @@ namespace rencart.Repositories.Repository
                 v.NoChasis,
                 v.NoMotor,
                 TipoVehiculo = v.TipoVehiculo.Descripcion,
+                Marca = v.Marca.Descripcion,
                 Modelo = v.Modelo.Descripcion,
                 TipoCombustible = v.TipoCombustible.Descripcion
             }).ToListAsync();
@@ -37,6 +38,7 @@ namespace rencart.Repositories.Repository
             vehiculoUpdate.NoMotor = vehiculo.NoMotor;
             vehiculoUpdate.NoPlaca = vehiculo.NoPlaca;
             vehiculoUpdate.IdModelo = vehiculo.IdModelo;
+            vehiculoUpdate.IdMarca = vehiculo.IdMarca;
             vehiculoUpdate.IdTipoCombustible = vehiculo.IdTipoCombustible;
             vehiculoUpdate.IdTipoVehiculo =  vehiculo.IdTipoVehiculo;
             vehiculoUpdate.Estado = vehiculo.Estado;

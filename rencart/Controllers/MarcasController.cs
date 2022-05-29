@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using rencart.Context;
 using rencart.Entities;
 using rencart.Interfaces;
 using System;
@@ -11,10 +13,12 @@ namespace rencart.Controllers
     public class MarcasController : ControllerBase
     {
         private readonly IUnityOfWork _IUnityOfWork;
+        public RencarDbContext _context;
 
-        public MarcasController(IUnityOfWork IUnityOfWork)
+        public MarcasController(IUnityOfWork IUnityOfWork, RencarDbContext context)
         {
             _IUnityOfWork = IUnityOfWork;   
+            _context = context;
         }
 
         [HttpGet]
@@ -24,6 +28,27 @@ namespace rencart.Controllers
             {
                 var marcas =  _IUnityOfWork.Marcas.GetAll();
                 return StatusCode(200, marcas);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+            finally
+            {
+                _IUnityOfWork.Dispose();
+            }
+        }
+
+        [HttpDelete]
+        [Route("remove/{idmarca}")]
+        public async Task<IActionResult> Remove(int idmarca)
+        {
+            try
+            {
+                var marca = await _context.Marca.FirstOrDefaultAsync(i => i.Id == idmarca);
+                if (marca  != null) _IUnityOfWork.Marcas.Remove(marca);
+
+                return StatusCode(200, _IUnityOfWork.Complete());
             }
             catch (Exception e)
             {

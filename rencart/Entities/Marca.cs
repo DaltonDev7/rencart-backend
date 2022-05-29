@@ -8,5 +8,6 @@ namespace rencart.Entities
         public string Descripcion { get; set; }
 
         public ICollection<Modelo> Modelos { get; set; }
+        public ICollection<Vehiculo> Vehiculos { get; set; }
     }
 }

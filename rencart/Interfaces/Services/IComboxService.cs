@@ -5,6 +5,7 @@ namespace rencart.Interfaces.Services
     public interface IComboxService
     {
         Task<dynamic> getClienteCombox();
+        Task<dynamic> getVehiculoCombox();
         Task<dynamic> getMarcaCombox();
         Task<dynamic> getTipoPersonaCombox();
         Task<dynamic> getModeloCombox();
@@ -13,5 +14,6 @@ namespace rencart.Interfaces.Services
         Task<dynamic> getTipoCombustibleCombox();
 
         Task<dynamic> getTipoVehiculoCombox();
+        Task<dynamic> getModelosByIdMarca(int idMarca);
     }
 }

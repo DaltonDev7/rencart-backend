@@ -26,6 +26,11 @@ namespace rencart.ConfigurationEntity
                   .HasForeignKey(v => v.IdModelo)
                   .OnDelete(DeleteBehavior.ClientSetNull);
 
+            builder.HasOne(v => v.Marca)
+                 .WithMany(t => t.Vehiculos)
+                 .HasForeignKey(v => v.IdMarca)
+                 .OnDelete(DeleteBehavior.ClientSetNull);
+
 
         }
     }

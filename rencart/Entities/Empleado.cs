@@ -12,6 +12,7 @@ namespace rencart.Entities
         public int PorcientoComision { get; set; }
         public DateTime FechaIngreso { get; set; }
         public ICollection<Inspeccion> Inspecciones { get; set; }
+        public ICollection<RentaDevolucion> RentaDevolucion { get; set; }
 
     }
 }

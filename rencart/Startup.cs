@@ -87,6 +87,7 @@ namespace rencart
             services.AddTransient<IEmpleadoRepository, EmpleadoRepository>();
 
             services.AddScoped<IComboxService, ComboxService>();
+            services.AddScoped<IInspeccionService, InspeccionService>();
 
 
         }

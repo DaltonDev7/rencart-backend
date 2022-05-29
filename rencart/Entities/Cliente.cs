@@ -15,6 +15,7 @@ namespace rencart.Entities
         public TipoPersona TipoPersona { get; set; }
 
         public ICollection<Inspeccion> Inspecciones { get; set; }
+        public ICollection<RentaDevolucion> RentaDevolucion { get; set; }
 
 
     }

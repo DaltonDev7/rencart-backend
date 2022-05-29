@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using rencart.Context;
 using rencart.Entities;
 using rencart.Interfaces;
 using System;
@@ -11,10 +13,11 @@ namespace rencart.Controllers
     public class ClienteController : ControllerBase
     {
         private readonly IUnityOfWork _IUnityOfWork;
-
-        public ClienteController(IUnityOfWork iUnityOfWork)
+        public RencarDbContext _context;
+        public ClienteController(IUnityOfWork iUnityOfWork, RencarDbContext context)
         {
             _IUnityOfWork=iUnityOfWork;
+            _context=context;
         }
 
         [HttpGet]
@@ -23,6 +26,27 @@ namespace rencart.Controllers
             try
             {
                 return StatusCode(200, await _IUnityOfWork.Cliente.getClientes());
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+            finally
+            {
+                _IUnityOfWork.Dispose();
+            }
+        }
+
+        [HttpDelete]
+        [Route("remove/{idcliente}")]
+        public async Task<IActionResult> Remove(int idcliente)
+        {
+            try
+            {
+                var cliente = await _context.Cliente.FirstOrDefaultAsync(i => i.Id == idcliente);
+                if (cliente  != null) _IUnityOfWork.Cliente.Remove(cliente);
+
+                return StatusCode(200, _IUnityOfWork.Complete());
             }
             catch (Exception e)
             {

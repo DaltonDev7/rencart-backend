@@ -7,6 +7,8 @@ namespace rencart.Interfaces
     {
         void Update(Inspeccion inspeccion);
 
+        void RemoveInspeccion(Inspeccion inspeccion);
+        Task<dynamic> verificarInspeccionVehiculo(int idVehiculo);
         Task<dynamic> getAllInspecciones();
     }
 }

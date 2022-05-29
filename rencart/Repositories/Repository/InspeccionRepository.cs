@@ -16,6 +16,25 @@ namespace rencart.Repositories.Repository
         {
         }
 
+        public void RemoveInspeccion(Inspeccion inspeccion)
+        {
+            Remove(inspeccion);
+        }
+
+        public async Task<dynamic> verificarInspeccionVehiculo(int idVehiculo)
+        {
+            //  DateTime date = new DateTime();
+            var date = DateTime.Now.Date;
+            var inspeccion =  await _context.Inspeccion.FirstOrDefaultAsync(i => i.IdVehiculo == idVehiculo && i.Fecha == date);
+            if(inspeccion == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
 
         public async Task<dynamic> getAllInspecciones()
         {
@@ -42,10 +61,10 @@ namespace rencart.Repositories.Repository
             updateInspeccion.IdEmpleado= inspeccion.IdEmpleado;
             updateInspeccion.IdVehiculo= inspeccion.IdVehiculo;
             updateInspeccion.FechaModificacion =  DateTime.UtcNow.AddMinutes(-240);
-            //updateInspeccion.LlantaA = inspeccion.LlantaA;
-            //updateInspeccion.LlantaB = inspeccion.LlantaB;
-            //updateInspeccion.LlantaC = inspeccion.LlantaC;
-            //updateInspeccion.LlantaD = inspeccion.LlantaD;
+            updateInspeccion.LlantaA = inspeccion.LlantaA;
+            updateInspeccion.LlantaB = inspeccion.LlantaB;
+            updateInspeccion.LlantaC = inspeccion.LlantaC;
+            updateInspeccion.LlantaD = inspeccion.LlantaD;
         }
     }
 }

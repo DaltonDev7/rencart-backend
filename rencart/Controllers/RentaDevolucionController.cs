@@ -1,7 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using rencart.Context;
+using rencart.DTO;
 using rencart.Entities;
 using rencart.Interfaces;
 using System;
+using System.Threading.Tasks;
 
 namespace rencart.Controllers
 {
@@ -10,19 +14,41 @@ namespace rencart.Controllers
     public class RentaDevolucionController : ControllerBase
     {
         private readonly IUnityOfWork _IUnityOfWork;
-
-        public RentaDevolucionController(IUnityOfWork iUnityOfWork)
+        public RencarDbContext _context;
+        public RentaDevolucionController(IUnityOfWork iUnityOfWork, RencarDbContext context)
         {
             _IUnityOfWork=iUnityOfWork;
+            _context=context;
         }
 
 
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
             try
             {
-                return StatusCode(200, _IUnityOfWork.RentaDevolucion.GetAll());
+                return StatusCode(200, await _IUnityOfWork.RentaDevolucion.getRentas());
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+            finally
+            {
+                _IUnityOfWork.Dispose();
+            }
+        }
+
+        [HttpDelete]
+        [Route("remove/{idRenta}")]
+        public async Task<IActionResult> Remove(int idRenta)
+        {
+            try
+            {
+                var renta = await _context.RentaDevolucion.FirstOrDefaultAsync(i => i.Id == idRenta);
+                if(renta  != null) _IUnityOfWork.RentaDevolucion.Remove(renta);
+               
+                return StatusCode(200, _IUnityOfWork.Complete());
             }
             catch (Exception e)
             {
@@ -54,6 +80,50 @@ namespace rencart.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("verificarRentaDisponible")]
+        public async Task<IActionResult> verificarRenta(RentaDisponibleDTO payload)
+        {
+            try
+            {
+            
+                var response = await _IUnityOfWork.RentaDevolucion.verificarRentaDisponible(payload);
+
+                return StatusCode(201, response);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+            finally
+            {
+                _IUnityOfWork.Dispose();
+            }
+        }
+
+
+
+        [HttpPost]
+        [Route("buscadorRenta")]
+        public async Task<IActionResult> buscador(BuscadorDTO payload)
+        {
+            try
+            {
+
+                var response = await _IUnityOfWork.RentaDevolucion.buscador(payload);
+
+                return StatusCode(200, response);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+            finally
+            {
+                _IUnityOfWork.Dispose();
+            }
+        }
+
         [HttpGet]
         [Route("GetById/{idRentaDevolucion}")]
         public IActionResult GetById(int idRentaDevolucion)
@@ -74,12 +144,12 @@ namespace rencart.Controllers
 
         [HttpPut]
         [Route("Update")]
-        public IActionResult Update(RentaDevolucion renta)
+        public IActionResult Update(RentaDevolucion data)
         {
             try
             {
-                _IUnityOfWork.RentaDevolucion.Update(renta);
-                return StatusCode(204, _IUnityOfWork.Complete());
+                _IUnityOfWork.RentaDevolucion.updateRentaActual(data);
+                return StatusCode(201, _IUnityOfWork.Complete());
             }
             catch (Exception e)
             {
@@ -90,6 +160,8 @@ namespace rencart.Controllers
                 _IUnityOfWork.Dispose();
             }
         }
+
+
 
 
 
